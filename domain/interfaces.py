@@ -99,57 +99,6 @@ class IMarkdownConverter(Protocol):
 
 
 @runtime_checkable
-class ILLMOrchestrator(Protocol):
-    """LLM编排器接口"""
-
-    async def process_with_llm(self, content: str, mode: str) -> str:
-        """使用LLM处理内容
-
-        Args:
-            content: 输入内容
-            mode: 处理模式（math/article）
-
-        Returns:
-            处理后的内容
-        """
-        ...
-
-
-@runtime_checkable
-class ICommandHandler(Protocol):
-    """命令处理器接口"""
-
-    async def handle_command(self, command: str, args: list[str]) -> Any:
-        """处理命令
-
-        Args:
-            command: 命令名称
-            args: 命令参数
-
-        Returns:
-            命令执行结果
-        """
-        ...
-
-
-@runtime_checkable
-class ILLMToolHandler(Protocol):
-    """LLM工具处理器接口"""
-
-    async def call_llm_tool(self, tool_name: str, **kwargs: Any) -> Any:
-        """调用LLM工具
-
-        Args:
-            tool_name: 工具名称
-            **kwargs: 工具参数
-
-        Returns:
-            工具执行结果
-        """
-        ...
-
-
-@runtime_checkable
 class ISafeEvaluator(Protocol):
     """安全求值器接口"""
 

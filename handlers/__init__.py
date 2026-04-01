@@ -1,8 +1,7 @@
 """
-命令处理器层
+处理器层
 """
 
-from .command_handler import CommandHandler
-from .llm_tool_handler import LLMToolHandler
+from .auto_render_handler import AutoRenderHandler
 
-__all__ = ["CommandHandler", "LLMToolHandler"]
+__all__ = ["AutoRenderHandler"]

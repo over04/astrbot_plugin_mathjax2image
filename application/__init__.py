@@ -3,6 +3,6 @@
 """
 
 from .render_orchestrator import RenderOrchestrator
-from .llm_orchestrator import LLMOrchestrator
+from .auto_render_matcher import AutoRenderMatcher
 
-__all__ = ["RenderOrchestrator", "LLMOrchestrator"]
+__all__ = ["RenderOrchestrator", "AutoRenderMatcher"]

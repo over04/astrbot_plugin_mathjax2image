@@ -1,20 +1,7 @@
 # MathJax2Image
 > 喜欢的话可以给个 Star 喵，有问题欢迎提 Issue/PR
 > 
-将 Markdown/MathJax 内容渲染为精美图片的 AstrBot 插件。
-
-## 命令
-
-- `/math <主题>` - 调用 LLM 生成数学文章，支持 LaTeX 公式渲染
-- `/art <主题>` - 调用 LLM 生成普通文章
-- `/render <内容>` - 直接渲染 Markdown/LaTeX 内容为图片
-
-**示例：**
-```
-/math 勾股定理的证明
-/art 人工智能的发展历程
-/render $E=mc^2$ 是爱因斯坦的质能方程
-```
+将 LLM 输出中的 Markdown / MathJax / TikZ / Mermaid 内容自动渲染为精美图片的 AstrBot 插件。
 
 ## 安装
 
@@ -44,7 +31,7 @@ playwright install chromium
 
 **TikZ 示例代码：**
 ```latex
-/render \begin{tikzpicture}[scale=1.8]
+\begin{tikzpicture}[scale=1.8]
   \draw[gray, rounded corners] (-0.8,-1.2) rectangle (0.8,1.2);
   \node at (0,1.5) {$\mathcal{C}$};
   \node (X) at (0,0.5) {$X$};
@@ -70,13 +57,27 @@ playwright install chromium
 \end{tikzpicture}
 ```
 
+## 工作方式
+
+插件会自动拦截 LLM 最终文本回复。
+
+- 命中“自动渲染正则配置”任意一条规则：直接渲染为图片，只返回图片
+- 未命中：保持原始文本输出
+- 渲染失败：回退原始文本输出
+
 ## 配置
 
 在 AstrBot 插件配置中可设置：
 
 - `background_color` - 模板背景颜色（默认 `#FDFBF0`）
-- `math_system_prompt` - 数学文章提示词
-- `article_system_prompt` - 普通文章提示词
+- `custom_match_patterns` - 自动渲染正则配置，每行一条正则
+
+默认配置已覆盖：
+
+- Markdown：标题、列表、引用、代码块、表格
+- LaTeX / MathJax：`$...$`、`$$...$$`、`\(...\)`、`\[...\]`、常见公式环境
+- TikZ / TikZ-CD / circuitikz / chemfig
+- Mermaid 代码块
 
 ## 支持
 

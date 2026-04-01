@@ -15,6 +15,40 @@ import re
 from typing import Pattern
 
 # ============================================================================
+# 自动渲染检测规则 (auto_render_matcher.py)
+# ============================================================================
+
+# 这组正则就是插件配置里的默认输入内容。
+# 运行时只编译配置文本中的规则，不再额外叠加隐藏兜底规则。
+AUTO_RENDER_DEFAULT_RULES: list[str] = [
+    # Markdown
+    r"(?m)^#{1,6}\s+\S+",
+    r"(?m)^[-*]\s+\S+",
+    r"(?m)^\d+\.\s+\S+",
+    r"(?m)^>\s+\S+",
+    r"```[\s\S]*?```",
+    r"(?m)^\|.+\|\s*$\n^\|[\-:\s|]+\|\s*$",
+    # LaTeX / MathJax
+    r"\$\$[\s\S]+?\$\$",
+    r"(?<!\$)\$[^$\n]+\$(?!\$)",
+    r"\\\([\s\S]+?\\\)",
+    r"\\\[[\s\S]+?\\\]",
+    r"\\begin\{equation\*?\}[\s\S]*?\\end\{equation\*?\}",
+    r"\\begin\{align\*?\}[\s\S]*?\\end\{align\*?\}",
+    r"\\begin\{gather\*?\}[\s\S]*?\\end\{gather\*?\}",
+    r"\\begin\{cases\}[\s\S]*?\\end\{cases\}",
+    r"\\begin\{(?:matrix|pmatrix|bmatrix|vmatrix|Vmatrix)\}[\s\S]*?\\end\{(?:matrix|pmatrix|bmatrix|vmatrix|Vmatrix)\}",
+    r"\\(?:frac|sum|int|lim|sqrt|vec)\b",
+    # TikZ / Mermaid / Chemfig
+    r"\\begin\{tikzpicture\}[\s\S]*?\\end\{tikzpicture\}",
+    r"\\begin\{tikzcd\}[\s\S]*?\\end\{tikzcd\}",
+    r"\\begin\{circuitikz\}[\s\S]*?\\end\{circuitikz\}",
+    r"\\chemfig\{[\s\S]*?\}",
+    r"```mermaid[\s\S]*?```",
+]
+
+
+# ============================================================================
 # LaTeX 预处理器相关正则 (latex_preprocessor.py)
 # ============================================================================
 
@@ -218,6 +252,8 @@ VALIDATOR_ALIGN_END: Pattern[str] = re.compile(r"\\end\{align\}")
 # ============================================================================
 
 __all__ = [
+    # 自动渲染检测
+    "AUTO_RENDER_DEFAULT_RULES",
     # LaTeX 预处理器
     "LATEX_TEXTBF",
     "LATEX_TEXTIT",
